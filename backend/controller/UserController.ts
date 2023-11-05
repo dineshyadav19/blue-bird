@@ -44,3 +44,31 @@ export const updateUser = async (req: Request, res: Response) => {
     status: 200, message: 'Details Successfully Updated', data: newUser
   })
 }
+
+export const deleteUser = async (req: Request, res: Response) => {
+  const userId = req.params.id
+
+  await prisma.user.delete({
+    where: {
+      id: Number(userId)
+    }
+  })
+
+  return res.json({
+    status: 200, message: 'User Successfully Deleted',
+  })
+}
+
+export const getUser = async (req: Request, res: Response) => {
+  const userId = req.params.id
+
+  const userDetails = await prisma.user.findFirst({
+    where: {
+      id: Number(userId)
+    }
+  })
+
+  return res.json({
+    status: 200, message: 'User Successfully Fetched', data: userDetails
+  })
+}
